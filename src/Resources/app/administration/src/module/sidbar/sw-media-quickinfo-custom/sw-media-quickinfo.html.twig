@@ -1,0 +1,48 @@
+{% block sw_media_quickinfo_quickactions_delete %}
+    {% parent %}
+
+    <li
+            v-if="!item.private && isPdfFile"
+            class="quickaction--pdf"
+            role="button"
+            tabindex="0"
+            @click="openModalPdf"
+            @keydown.enter="openModalPdf">
+        <mt-icon
+                size="16px"
+                name="regular-exchange-alt-s"
+                class="sw-media-sidebar__quickactions-icon"
+        />
+        {{ $tc('moriElasticSearch.sw-media-quickinfo.convertToText') }}
+    </li>
+
+    <sw-modal
+            v-if="showPdfModal"
+            :title="$tc('moriElasticSearch.sw-media-quickinfo.modalTitle')"
+            variant="default"
+            @modal-close="closePdfModal"
+    >
+        <div class="pdf-convert-modal-content">
+            <p v-html="$t('moriElasticSearch.sw-media-quickinfo.modalContent', { fileName: item.fileName })"></p>
+            <p>{{ $tc('moriElasticSearch.sw-media-quickinfo.modalDescription') }}</p>
+        </div>
+
+        <template #modal-footer>
+            <sw-button
+                    size="small"
+                    @click="closePdfModal"
+                    :disabled="isConverting"
+            >
+                {{ $tc('moriElasticSearch.sw-media-quickinfo.cancel') }}
+            </sw-button>
+            <sw-button
+                    variant="primary"
+                    size="small"
+                    @click="convertPdfToText"
+                    :isLoading="isConverting"
+            >
+                {{ isConverting ? $tc('moriElasticSearch.sw-media-quickinfo.converting') : $tc('moriElasticSearch.sw-media-quickinfo.convert') }}
+            </sw-button>
+        </template>
+    </sw-modal>
+{% endblock %}

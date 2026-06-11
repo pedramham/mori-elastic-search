@@ -1,0 +1,66 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <services>
+
+        <service id="MoriElasticSearch\Command\MoriElasticSearchCommand">
+            <argument type="service" id="pdf_elastic_search.repository"/>
+            <tag name="console.command"/>
+        </service>
+
+        <service id="MoriElasticSearch\Controller\PdfConvertController" public="true">
+            <argument type="service" id="MoriElasticSearch\Service\ConvertPdfToText"/>
+            <call method="setContainer">
+                <argument type="service" id="service_container"/>
+            </call>
+            <tag name="controller.service_arguments"/>
+        </service>
+
+        <service id="MoriElasticSearch\Subscriber\PdfSearchSubscriber">
+            <argument type="service" id="MoriElasticSearch\Service\Search\SearchCoordinator"/>
+            <tag name="kernel.event_subscriber"/>
+        </service>
+
+        <service id="MoriElasticSearch\Core\Content\PdfElasticSearch\PdfElasticSearchDefinition">
+            <tag name="shopware.entity.definition" entity="pdf_elastic_search"/>
+        </service>
+
+        <service id="MoriElasticSearch\Service\DatabaseStorage" public="true">
+            <argument type="service" id="pdf_elastic_search.repository"/>
+        </service>
+
+        <service id="MoriElasticSearch\Service\ElasticsearchStorage" public="true">
+            <argument type="service" id="Shopware\Core\System\SystemConfig\SystemConfigService"/>
+            <argument type="service" id="logger"/>
+        </service>
+
+        <service id="MoriElasticSearch\Service\ConvertPdfToText" public="true">
+            <argument type="service" id="MoriElasticSearch\Service\Storage"/>
+            <argument type="service" id="parameter_bag"/>
+        </service>
+
+        <service id="MoriElasticSearch\Service\Storage" public="true">
+            <argument type="service" id="MoriElasticSearch\Service\DatabaseStorage"/>
+            <argument type="service" id="MoriElasticSearch\Service\ElasticsearchStorage"/>
+
+        </service>
+
+        <service id="MoriElasticSearch\Service\Search\DatabaseSearch">
+            <argument type="service" id="pdf_elastic_search.repository"/>
+        </service>
+
+        <service id="MoriElasticSearch\Service\Search\ElasticsearchSearch">
+            <argument type="service" id="Shopware\Core\System\SystemConfig\SystemConfigService"/>
+            <argument type="service" id="logger"/>
+        </service>
+
+        <service id="MoriElasticSearch\Service\Search\SearchCoordinator">
+            <argument type="service" id="MoriElasticSearch\Service\Search\ElasticsearchSearch"/>
+            <argument type="service" id="MoriElasticSearch\Service\Search\DatabaseSearch"/>
+        </service>
+
+    </services>
+</container>

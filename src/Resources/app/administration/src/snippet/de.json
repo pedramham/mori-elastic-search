@@ -1,0 +1,17 @@
+{
+  "moriElasticSearch": {
+    "sw-media-quickinfo": {
+      "convert": "Konvertieren",
+      "convertToText": "In Text umwandeln",
+      "cancel": "Abbrechen",
+      "converting": "Wird konvertiert...",
+      "modalTitle": "PDF in Text umwandeln",
+      "modalContent": "{fileName} in Text umwandeln?",
+      "modalDescription": "Dadurch wird der gesamte Textinhalt aus der PDF-Datei extrahiert.",
+      "successMessage": "PDF erfolgreich konvertiert!",
+      "errorMessage": "Bei der Konvertierung ist ein Fehler aufgetreten",
+      "fileNotFound": "PDF-Datei nicht gefunden",
+      "conversionFailed": "Konvertierung fehlgeschlagen. Bitte versuchen Sie es erneut."
+    }
+  }
+}

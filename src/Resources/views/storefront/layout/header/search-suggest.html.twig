@@ -1,0 +1,31 @@
+{% sw_extends '@Storefront/storefront/layout/header/search-suggest.html.twig' %}
+
+{% block layout_search_suggest_results %}
+    {{ parent() }}
+    {% if page.extensions.pdfResults is defined %}
+        {% set pdfData = page.extensions.pdfResults %}
+        {% set pdfHits = pdfData.results ?? pdfData.elements ?? [] %}
+
+        {% if pdfHits|length > 0 %}
+            {% for pdf in pdfHits %}
+                {% set source = pdf._source ?? pdf %}
+                {% set title = source.title|default('PDF Document') %}
+                {% set path = source.url|default('#') %}
+
+                <li class="search-suggest-product js-result" role="option">
+                    <a href="{{ path }}" title="{{ title }}" class="search-suggest-product-link">
+                        <div class="row align-items-center g-0">
+                            <div class="col search-suggest-product-name">
+                                {% sw_icon 'pdf' style {
+                                    'namespace': 'MoriElasticSearch',
+                                    'size': 's'
+                                } %}
+                                {{ title }}
+                            </div>
+                        </div>
+                    </a>
+                </li>
+            {% endfor %}
+        {% endif %}
+    {% endif %}
+{% endblock %}

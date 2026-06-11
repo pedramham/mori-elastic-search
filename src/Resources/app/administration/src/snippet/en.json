@@ -1,0 +1,17 @@
+{
+  "moriElasticSearch": {
+    "sw-media-quickinfo": {
+      "convert": "Convert",
+      "convertToText": "Convert to text",
+      "cancel": "Cancel",
+      "converting": "Converting...",
+      "modalTitle": "Convert PDF to Text",
+      "modalContent": "Convert <strong>{fileName}</strong> to text?",
+      "modalDescription": "This will extract all text content from the PDF file.and save in the database",
+      "successMessage": "PDF converted successfully!",
+      "errorMessage": "An error occurred during conversion",
+      "fileNotFound": "PDF file not found",
+      "conversionFailed": "Conversion failed. Please try again."
+    }
+  }
+}

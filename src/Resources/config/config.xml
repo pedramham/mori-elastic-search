@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/shopware/shopware/trunk/src/Core/System/SystemConfig/Schema/config.xsd">
+
+    <card>
+        <title>ElasticSearch configuration</title>
+        <input-field type="int">
+            <name>elasticSearchItems</name>
+            <label>Number of search results</label>
+            <defaultValue>10</defaultValue>
+            <placeholder>10</placeholder>
+            <helpText>Maximum number of PDF documents to display in search suggestions. Higher values may impact
+                performance.
+            </helpText>
+            <helpText lang="de-DE">Maximale Anzahl der PDF-Dokumente, die in Suchvorschlägen angezeigt werden. Höhere
+                Werte können die Leistung beeinträchtigen.
+            </helpText>
+        </input-field>
+
+        <input-field type="int">
+            <name>elasticSearchFuzziness</name>
+            <label>Fuzziness level</label>
+            <defaultValue>2</defaultValue>
+            <placeholder>2</placeholder>
+            <helpText>Controls typo tolerance (0 = exact match, 1 = small typos, 2 = moderate typos, 3 = large typos,
+                AUTO = automatic).
+            </helpText>
+            <helpText lang="de-DE">Kontrolliert die Tippfehlertoleranz (0 = exakte Übereinstimmung, 1 = kleine
+                Tippfehler, 2 = moderate Tippfehler, 3 = große Tippfehler, AUTO = automatisch).
+            </helpText>
+        </input-field>
+
+        <input-field type="int">
+            <name>elasticSearchSlop</name>
+            <label>Slop distance</label>
+            <defaultValue>12</defaultValue>
+            <placeholder>12</placeholder>
+            <helpText>Maximum word distance between terms in phrase search. Lower slop = words must be closer
+                together.
+            </helpText>
+            <helpText lang="de-DE">Maximaler Wortabstand zwischen Begriffen bei der Phrasensuche. Niedrigerer Slop =
+                Wörter müssen näher beieinander sein.
+            </helpText>
+        </input-field>
+
+        <input-field type="bool">
+            <name>elasticSearchFuzzySearch</name>
+            <label>Enable fuzzy search</label>
+            <defaultValue>2</defaultValue>
+            <placeholder>2</placeholder>
+            <helpText>Allow approximate matching for spelling mistakes. When disabled, only exact matches are shown.
+            </helpText>
+            <helpText lang="de-DE">Ermöglicht ungefähre Übereinstimmungen bei Rechtschreibfehlern. Wenn deaktiviert,
+                werden nur exakte Übereinstimmungen angezeigt.
+            </helpText>
+        </input-field>
+
+        <input-field type="text">
+            <name>elasticSearchHost</name>
+            <label>ElasticSearch host</label>
+            <defaultValue>http://localhost:9200</defaultValue>
+            <placeholder>http://localhost:9200</placeholder>
+            <helpText>Your ElasticSearch server URL. Use http://host:9200 format. For local development, leave as default.</helpText>
+            <helpText lang="de-DE">Ihre ElasticSearch-Server-URL. Verwenden Sie das Format http://host:9200. Für die lokale Entwicklung lassen Sie die Standardeinstellung.</helpText>
+        </input-field>
+
+    </card>
+
+    <card>
+    <title>Advance configuration</title>
+        <input-field type="int">
+            <name>elasticSearchNumberOfShards</name>
+            <label>Number of shards</label>
+            <defaultValue>1</defaultValue>
+            <placeholder>1</placeholder>
+            <helpText>Number of shards for Elasticsearch index. Shards distribute data across nodes. For small to medium data, 1-2 is sufficient. Increase for very large datasets (millions of documents).</helpText>
+            <helpText lang="de-DE">Anzahl der Shards für den Elasticsearch-Index. Shards verteilen Daten auf Knoten. Für kleine bis mittlere Datenmengen ist 1-2 ausreichend. Erhöhen Sie für sehr große Datensätze (Millionen von Dokumenten).</helpText>
+            <min>1</min>
+            <max>10</max>
+        </input-field>
+
+        <input-field type="int">
+            <name>elasticSearchNumberOfReplicas</name>
+            <label>Number of replicas</label>
+            <defaultValue>0</defaultValue>
+            <placeholder>0</placeholder>
+            <helpText>Number of replica copies for fault tolerance. 0 = no backup (development). 1 = one backup copy (recommended for production). Higher values increase redundancy but use more disk space.</helpText>
+            <helpText lang="de-DE">Anzahl der Replikate für Fehlertoleranz. 0 = keine Sicherung (Entwicklung). 1 = eine Sicherungskopie (für Produktion empfohlen). Höhere Werte erhöhen die Redundanz, verbrauchen aber mehr Speicherplatz.</helpText>
+            <min>0</min>
+            <max>5</max>
+        </input-field>
+
+        <input-field type="text">
+            <name>elasticSearchIndexName</name>
+            <label>Elasticsearch index name</label>
+            <defaultValue>sw_pdf_documents_v1</defaultValue>
+            <placeholder>sw_pdf_documents_v1</placeholder>
+            <helpText>Name of the Elasticsearch index where PDF documents will be stored. Use letters, numbers, and underscores only.</helpText>
+            <helpText lang="de-DE">Name des Elasticsearch-Index, in dem PDF-Dokumente gespeichert werden. Verwenden Sie nur Buchstaben, Zahlen und Unterstriche.</helpText>
+        </input-field>
+    </card>
+</config>

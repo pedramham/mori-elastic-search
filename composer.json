@@ -1,0 +1,27 @@
+{
+    "name": "mori-elastic-search/mori-elastic-search",
+    "description": "Convert PDF to searchable text with Elasticsearch integration for fast full-text search in Shopware 6.",
+    "type": "shopware-platform-plugin",
+    "version": "1.0.0",
+    "license": "MIT",
+    "require": {
+        "shopware/core": "~6.7.0"
+    },
+    "extra": {
+        "shopware-plugin-class": "MoriElasticSearch\\MoriElasticSearch",
+        "label": {
+            "de-DE": "Mori plugin",
+            "en-GB": "Mori plugin"
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "MoriElasticSearch\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "MoriElasticSearch\\Tests\\": "tests/"
+        }
+    }
+}
