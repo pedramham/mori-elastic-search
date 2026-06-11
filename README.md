@@ -16,7 +16,9 @@ Click on the PDF file - the plugin automatically:
 
 ![](src/Resources/config/images/help-2.jpg)
 
-### 3. Search in Storefront
+### 3. Configuration Plugin
+![](src/Resources/config/images/help-4.jpg)
+### 4. Search in Storefront
 PDF search results appear in the Storefront search suggestions.
 
 ![](src/Resources/config/images/help-3.jpg)
