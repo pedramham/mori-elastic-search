@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace MoriElasticSearch\Core\Content\PdfElasticSearch;
 
@@ -19,7 +21,7 @@ class PdfElasticSearchEntity extends Entity
 
     protected bool $active;
 
-    public function getMedia(): ?string
+    public function getMediaId(): ?string
     {
         return $this->mediaId;
     }

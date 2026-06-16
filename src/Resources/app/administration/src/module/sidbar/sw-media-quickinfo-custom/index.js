@@ -1,9 +1,12 @@
+
 import template from './sw-media-quickinfo.html.twig';
+import './sw-media-quickinfo.scss'
 
 Shopware.Component.override('sw-media-quickinfo', {
     template,
 
     emits: ['notification'],
+    inject: ['elasticsearchService', 'httpClient'],
 
     data() {
         return {
@@ -24,8 +27,8 @@ Shopware.Component.override('sw-media-quickinfo', {
     },
 
     methods: {
+
         openModalPdf() {
-            console.log('Convert to text clicked for PDF:', this.item.fileName);
             this.showPdfModal = true;
         },
 
@@ -37,38 +40,27 @@ Shopware.Component.override('sw-media-quickinfo', {
             this.isConverting = true;
 
             try {
-
-                const requestData = {
-                    mediaId: this.item.id,
-                    path: this.item.path
-                };
-
-                const apiResponse = await fetch('/api/_action/pdf/convert-to-text', {
-                    method: 'POST',
-                    headers: {
-                        Accept: 'application/vnd.api+json',
-                        Authorization: `Bearer ${Shopware.Context.api.authToken.access}`,
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(requestData)
-                });
-
-                const result = await apiResponse.json();
+                const result = await this.elasticsearchService.convertPdfToText(
+                    this.item.id,
+                    this.item.path
+                );
 
                 if (result.success) {
                     this.createNotificationSuccess({
-                        title: "success",
-                        message: result.message
+                        title: "Success",
+                        message: result.message || "PDF converted and indexed successfully"
                     });
                 } else {
                     this.createNotificationError({
                         title: 'Error',
-                        message: result.message
+                        message: result.message || "Conversion failed"
                     });
                 }
-
             } catch (error) {
-                console.log("Error: ".error)
+                this.createNotificationError({
+                    title: 'Error',
+                    message: error.message || "Failed to convert PDF"
+                });
             } finally {
                 this.isConverting = false;
                 this.closePdfModal();

@@ -8,6 +8,12 @@
 
         <service id="MoriElasticSearch\Command\MoriElasticSearchCommand">
             <argument type="service" id="pdf_elastic_search.repository"/>
+            <argument type="service" id="media.repository"/>
+            <tag name="console.command"/>
+        </service>
+
+        <service id="MoriElasticSearch\Command\ReindexCommand">
+            <argument type="service" id="MoriElasticSearch\Service\ElasticsearchIndexer"/>
             <tag name="console.command"/>
         </service>
 
@@ -33,13 +39,18 @@
         </service>
 
         <service id="MoriElasticSearch\Service\ElasticsearchStorage" public="true">
-            <argument type="service" id="Shopware\Core\System\SystemConfig\SystemConfigService"/>
+            <argument type="service" id="logger"/>
+        </service>
+
+        <service id="MoriElasticSearch\Service\ElasticsearchIndexer" public="true">
+            <argument type="service" id="pdf_elastic_search.repository"/>
+            <argument type="service" id="MoriElasticSearch\Service\ElasticsearchStorage"/>
             <argument type="service" id="logger"/>
         </service>
 
         <service id="MoriElasticSearch\Service\ConvertPdfToText" public="true">
             <argument type="service" id="MoriElasticSearch\Service\Storage"/>
-            <argument type="service" id="parameter_bag"/>
+            <argument type="service" id="kernel"/>
         </service>
 
         <service id="MoriElasticSearch\Service\Storage" public="true">
@@ -53,8 +64,6 @@
         </service>
 
         <service id="MoriElasticSearch\Service\Search\ElasticsearchSearch">
-            <argument type="service" id="Shopware\Core\System\SystemConfig\SystemConfigService"/>
-            <argument type="service" id="logger"/>
         </service>
 
         <service id="MoriElasticSearch\Service\Search\SearchCoordinator">

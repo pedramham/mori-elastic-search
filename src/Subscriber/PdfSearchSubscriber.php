@@ -18,19 +18,18 @@ class PdfSearchSubscriber implements EventSubscriberInterface
     public static function getSubscribedEvents(): array
     {
         return [
-            SuggestPageLoadedEvent::class => 'onSuggestPageLoaded'
+            SuggestPageLoadedEvent::class => 'onSuggestPageLoaded',
         ];
     }
 
     public function onSuggestPageLoaded(SuggestPageLoadedEvent $event): void
     {
         $keyword = $event->getRequest()->query->get('search');
-        if (!$keyword) {
+        if (! $keyword) {
             return;
         }
 
         $resultStruct = $this->searchCoordinator->search($keyword, $event->getContext());
         $event->getPage()->addExtension('pdfResults', $resultStruct);
-
     }
 }

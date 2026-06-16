@@ -7,7 +7,9 @@ use Shopware\Core\Framework\Struct\Struct;
 class PdfSearchResultStruct extends Struct
 {
     protected array $results = [];
+
     protected int $total = 0;
+
     protected string $source = '';
 
     public function getResults(): array

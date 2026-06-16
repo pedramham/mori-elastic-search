@@ -1,0 +1,77 @@
+{# src/Resources/app/administration/src/module/mori-pdf/page/mori-pdf-detail/index.html.twig #}
+
+{% block mori_pdf_detail %}
+    <sw-page class="mori-pdf-detail">
+
+        <template #smart-bar-header>
+            <h2>{{ toolbarTitle }}</h2>
+        </template>
+
+        <template #smart-bar-actions>
+            <mt-button
+                    variant="primary"
+                    :is-loading="isLoading"
+                    @click="onSave"
+                    :disabled="!pdf"
+            >
+                {{ $tc('moriElasticSearch.sw-media-quickinfo.save') }}
+            </mt-button>
+
+            <mt-button @click="onCancel">
+                {{ $tc('moriElasticSearch.sw-media-quickinfo.cancel') }}
+            </mt-button>
+        </template>
+
+        <template #content>
+            <sw-card-view>
+
+                <sw-card title="PDF Information" v-if="pdf && !isLoading">
+                    {% block mori_pdf_detail_title_field %}
+                        <mt-text-field
+                                v-model="pdf.title"
+                                label="Title"
+                                :disabled="isLoading"
+                                required
+                        />
+                    {% endblock %}
+
+                    {% block mori_pdf_detail_description_field %}
+                        <mt-text-editor
+                                v-model="pdf.description"
+                                label="Description"
+                                :disabled="isLoading"
+                        />
+                    {% endblock %}
+
+                    {% block mori_pdf_detail_active_field %}
+                        <mt-switch
+                                v-model="pdf.active"
+                                label="Active"
+                                :disabled="isLoading"
+                        />
+                    {% endblock %}
+
+                    {% block mori_pdf_detail_path_field %}
+                        <mt-button
+                                v-if="pdf.path"
+                                variant="primary"
+                                size="small"
+                                :link="pdf.path"
+                                target="_blank"
+                                class="mori-pdf-preview-btn"
+                        >
+                            <mt-icon name="regular-eye" size="16px"></mt-icon>
+                            {{ $tc('moriElasticSearch.sw-media-quickinfo.pdfPreview') }}
+                        </mt-button>
+                    {% endblock %}
+                </sw-card>
+
+                <!-- Loading state -->
+                <sw-card title="PDF Information" v-else-if="isLoading">
+                    <sw-loader></sw-loader>
+                </sw-card>
+            </sw-card-view>
+        </template>
+
+    </sw-page>
+{% endblock %}

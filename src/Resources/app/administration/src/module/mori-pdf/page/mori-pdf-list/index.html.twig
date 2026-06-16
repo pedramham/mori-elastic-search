@@ -1,0 +1,79 @@
+{# src/Resources/app/administration/src/module/mori-pdf/page/mori-pdf-list/index.html.twig #}
+
+{% block mori_pdf_list %}
+    <sw-page class="mori-pdf-list">
+        <template #smart-bar-header>
+            <h2>{{ $tc('moriElasticSearch.sw-media-quickinfo.pdfManager') }}</h2>
+        </template>
+
+        <template #content>
+            <sw-entity-listing
+                    v-if="pdfs"
+                    :items="pdfs"
+                    :columns="columns"
+                    :repository="pdfRepository"
+                    :is-loading="isLoading"
+                    :total="total"
+                    :page="page"
+                    :limit="limit"
+                    detail-route="mori.pdf.detail"
+                    :allow-edit="acl.can('pdf_elastic_search:update')"
+                    :allow-delete="acl.can('pdf_elastic_search:delete')"
+                    @page-change="onChangePage"
+                    :plain-appearance="true"
+            >
+                <template #column-title="{ item }">
+                    {{ item.title?.substring(0, 50) }}{{ item.title?.length > 50 ? '...' : '' }}
+                </template>
+
+                <template #column-description="{ item }">
+                    {{ item.description?.substring(0, 75) }}{{ item.description?.length > 75 ? '...' : '' }}
+                </template>
+
+                <template #column-active="{ item }">
+                    <sw-label v-if="item.active" variant="success" size="small">
+                        {{ $tc('moriElasticSearch.sw-media-quickinfo.active') }}
+                    </sw-label>
+                    <sw-label v-else variant="danger" size="small">
+                        {{ $tc('moriElasticSearch.sw-media-quickinfo.inactive') }}
+                    </sw-label>
+                </template>
+
+                <template #column-createdAt="{ item }">
+                    {{ item.createdAt ? item.createdAt.split('T')[0] : '' }}
+                </template>
+
+                <template #delete-action="{ item }">
+                    <sw-button
+                            variant="danger"
+                            size="small"
+                            @click="onDelete(item)"
+                    >
+                        {{ $tc('moriElasticSearch.sw-media-quickinfo.delete') }}
+                    </sw-button>
+                </template>
+            </sw-entity-listing>
+            <sw-modal
+                    v-if="showDeleteModal"
+                    title="Delete PDF"
+                    variant="small"
+                    @modal-close="closeDeleteModal"
+            >
+                {{ $tc('moriElasticSearch.sw-media-quickinfo.deleteConfirm') }}
+
+                <template #modal-footer>
+                    <sw-button @click="closeDeleteModal">
+                        Cancel
+                    </sw-button>
+                    <sw-button
+                            variant="danger"
+                            @click="confirmDelete"
+                    >
+                        {{ $tc('moriElasticSearch.sw-media-quickinfo.delete') }}
+                    </sw-button>
+                </template>
+            </sw-modal>
+        </template>
+
+    </sw-page>
+{% endblock %}

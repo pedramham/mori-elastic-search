@@ -1,6 +1,9 @@
 {
   "moriElasticSearch": {
     "sw-media-quickinfo": {
+      "name": "Mori PDF Manager",
+      "title": "Mori PDF Manager",
+      "description": "Manage PDF files",
       "convert": "Convert",
       "convertToText": "Convert to text",
       "cancel": "Cancel",
@@ -11,7 +14,14 @@
       "successMessage": "PDF converted successfully!",
       "errorMessage": "An error occurred during conversion",
       "fileNotFound": "PDF file not found",
-      "conversionFailed": "Conversion failed. Please try again."
+      "conversionFailed": "Conversion failed. Please try again.",
+      "delete": "Delete",
+      "deleteConfirm": "Are you sure you want to delete this PDF?",
+      "active": "Active",
+      "save": "Save",
+      "inactive": "Inactive",
+      "pdfManager": "PDF Manager",
+      "pdfPreview": "Preview PDF",
     }
   }
 }

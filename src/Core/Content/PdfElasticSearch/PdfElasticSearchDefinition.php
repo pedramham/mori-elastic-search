@@ -1,15 +1,17 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace MoriElasticSearch\Core\Content\PdfElasticSearch;
 
 use Shopware\Core\Framework\DataAbstractionLayer\EntityDefinition;
-use Shopware\Core\Framework\DataAbstractionLayer\Field\LongTextField;
-use Shopware\Core\Framework\DataAbstractionLayer\FieldCollection;
 use Shopware\Core\Framework\DataAbstractionLayer\Field\BoolField;
 use Shopware\Core\Framework\DataAbstractionLayer\Field\Flag\PrimaryKey;
 use Shopware\Core\Framework\DataAbstractionLayer\Field\Flag\Required;
 use Shopware\Core\Framework\DataAbstractionLayer\Field\IdField;
+use Shopware\Core\Framework\DataAbstractionLayer\Field\LongTextField;
 use Shopware\Core\Framework\DataAbstractionLayer\Field\StringField;
+use Shopware\Core\Framework\DataAbstractionLayer\FieldCollection;
 
 class PdfElasticSearchDefinition extends EntityDefinition
 {
@@ -38,7 +40,7 @@ class PdfElasticSearchDefinition extends EntityDefinition
             (new StringField('title', 'title')),
             (new StringField('path', 'path')),
             (new LongTextField('description', 'description')),
-            (new BoolField('active', 'active'))
+            (new BoolField('active', 'active')),
         ]);
     }
 }

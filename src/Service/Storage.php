@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace MoriElasticSearch\Service;
 
-
 class Storage implements ConvertPdfInterface
 {
     private DatabaseStorage $database;
+
     private ElasticsearchStorage $elasticsearch;
 
     public function __construct(
@@ -20,7 +20,9 @@ class Storage implements ConvertPdfInterface
 
     public function save(array $data): void
     {
-        $this->database->save($data);
+        if (! $data['update']) {
+            $this->database->save($data);
+        }
         $this->elasticsearch->save($data);
     }
 
@@ -31,5 +33,14 @@ class Storage implements ConvertPdfInterface
         }
 
         return $this->elasticsearch->exists($mediaId);
+    }
+
+    public function delete(string $mediaId): bool
+    {
+        if ($this->elasticsearch->delete($mediaId) && $this->database->delete($mediaId)) {
+            return true;
+        }
+
+        return false;
     }
 }

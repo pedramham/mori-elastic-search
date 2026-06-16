@@ -4,48 +4,48 @@ declare(strict_types=1);
 
 namespace MoriElasticSearch\Service;
 
+use MoriElasticSearch\Config\SystemConfigHelper;
 use OpenSearch\Client;
 use OpenSearch\ClientBuilder;
 use Psr\Log\LoggerInterface;
-use Shopware\Core\System\SystemConfig\SystemConfigService;
 
 class ElasticsearchStorage implements ConvertPdfInterface
 {
     private Client $client;
-    private string $indexName;
-    private SystemConfigService $systemConfig;
+
     private LoggerInterface $logger;
 
-    public function __construct(SystemConfigService $systemConfig, LoggerInterface $logger)
+    public function __construct(LoggerInterface $logger)
     {
-        $this->systemConfig = $systemConfig;
-        $host = $systemConfig->get('MoriElasticSearch.config.elasticSearchHost') ?? 'http://localhost:9200';
-        $this->client = ClientBuilder::create()->setHosts([$host])->build();
-        $this->indexName = $systemConfig->get('MoriElasticSearch.config.elasticSearchIndexName', ) ?? 'sw_pdf_documents_v1';
+        $this->client = ClientBuilder::create()->setHosts([SystemConfigHelper::getHost()])->build();
         $this->logger = $logger;
     }
 
     public function save(array $data): void
     {
-        if (!$this->indexExists()) {
+        if (! $this->indexExists()) {
             $this->createIndex();
         }
-        // Create index if not exists (silent check)
+
         try {
-            $exists = $this->client->indices()->exists(['index' => $this->indexName]);
-            if (!$exists) {
-                $this->client->indices()->create(['index' => $this->indexName]);
+            $exists = $this->client->indices()->exists([
+                'index' => SystemConfigHelper::getIndexName(),
+            ]);
+            if (! $exists) {
+                $this->client->indices()->create([
+                    'index' => SystemConfigHelper::getIndexName(),
+                ]);
             }
         } catch (\Exception $e) {
             $this->logger->error('MoriElasticSearch: Failed to save document to Elasticsearch', [
                 'pdf' => $data['pdfPath'],
                 'error' => $e->getMessage(),
-                'trace' => $e->getTraceAsString()
+                'trace' => $e->getTraceAsString(),
             ]);
         }
 
         $params = [
-            'index' => $this->indexName,
+            'index' => SystemConfigHelper::getIndexName(),
             'id' => $data['mediaId'],
             'body' => [
                 'title' => $data['title'],
@@ -53,74 +53,104 @@ class ElasticsearchStorage implements ConvertPdfInterface
                 'url' => $data['url'],
                 'mediaId' => $data['mediaId'],
                 'pdfPath' => $data['pdfPath'],
-                'converted_at' => date('c')
-            ]
+                'converted_at' => date('c'),
+            ],
         ];
 
         $this->client->index($params);
+    }
+
+    public function delete(string $mediaId): bool
+    {
+        if (! $this->indexExists()) {
+            return false;
+        }
+
+        $params = [
+            'index' => SystemConfigHelper::getIndexName(),
+            'id' => $mediaId,
+        ];
+
+        try {
+            $this->client->delete($params);
+            return true;
+        } catch (\Exception $e) {
+            $this->logger->error('MoriElasticSearch: Failed to delete document to Elasticsearch', [
+                'mediaId' => $mediaId,
+                'error' => $e->getMessage(),
+                'trace' => $e->getTraceAsString(),
+            ]);
+            return false;
+        }
     }
 
     public function exists(string $mediaId): bool
     {
         try {
             $params = [
-                'index' => $this->indexName,
-                'id' => $mediaId
+                'index' => SystemConfigHelper::getIndexName(),
+                'id' => $mediaId,
             ];
 
             $response = $this->client->get($params);
             return $response['found'] ?? false;
         } catch (\Exception $e) {
-            $this->logger->error('MoriElasticSearch: '. $e);
+            $this->logger->error('MoriElasticSearch: ' . $e);
             return false;
         }
     }
 
-    private function createIndex(): void
+    public function createIndex(): void
     {
-        $searchNumberOfShards = $this->systemConfig->get('MoriElasticSearch.config.elasticSearchNumberOfShards') ?? 1;
-        $searchNumberOfReplicas = $this->systemConfig->get('MoriElasticSearch.config.elasticSearchNumberOfReplicas') ?? 0;
         $params = [
-            'index' => $this->indexName,
+            'index' => SystemConfigHelper::getIndexName(),
             'body' => [
                 'settings' => [
-                    'number_of_shards' => $searchNumberOfShards,
-                    'number_of_replicas' => $searchNumberOfReplicas
+                    'number_of_shards' => SystemConfigHelper::getNumberOfShards(),
+                    'number_of_replicas' => SystemConfigHelper::getNumberOfReplicas(),
                 ],
                 'mappings' => [
                     'properties' => [
                         'title' => [
                             'type' => 'text',
                             'fields' => [
-                                'keyword' => ['type' => 'keyword']
-                            ]
+                                'keyword' => [
+                                    'type' => 'keyword',
+                                ],
+                            ],
                         ],
                         'description' => [
                             'type' => 'text',
                             'fields' => [
-                                'keyword' => ['type' => 'keyword']
-                            ]
-                        ]
-                    ]
-                ]
-            ]
+                                'keyword' => [
+                                    'type' => 'keyword',
+                                ],
+                            ],
+                        ],
+                    ],
+                ],
+            ],
         ];
 
         $this->client->indices()->create($params);
-        $this->logger->info('MoriElasticSearch: Index created successfully', ['index' => $this->indexName]);
+        $this->logger->info('MoriElasticSearch: Index created successfully', [
+            'index' => SystemConfigHelper::getIndexName(),
+        ]);
     }
 
-    private function indexExists(): bool
+    public function indexExists(): bool
     {
         try {
-            $params = ['index' => $this->indexName];
+            $params = [
+                'index' => SystemConfigHelper::getIndexName(),
+            ];
             return $this->client->indices()->exists($params);
         } catch (\Exception $e) {
             $this->logger->error('MoriElasticSearch: Failed to check/create index', [
-                'index' => $this->indexName,
-                'error' => $e->getMessage()
+                'index' => SystemConfigHelper::getIndexName(),
+                'error' => $e->getMessage(),
             ]);
+            return false;
         }
     }
-
 }

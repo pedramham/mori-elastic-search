@@ -10,24 +10,22 @@ use Shopware\Core\Framework\Context;
 class SearchCoordinator
 {
     private ElasticsearchSearch $elasticsearchSearch;
+
     private DatabaseSearch $databaseSearch;
 
     public function __construct(
         ElasticsearchSearch $elasticsearchSearch,
-        DatabaseSearch      $databaseSearch
-    )
-    {
+        DatabaseSearch $databaseSearch
+    ) {
         $this->elasticsearchSearch = $elasticsearchSearch;
         $this->databaseSearch = $databaseSearch;
     }
 
     public function search(string $term, Context $context): PdfSearchResultStruct
     {
-
         $results = $this->elasticsearchSearch->search($term);
         if (empty($results)) {
             $results = $this->databaseSearch->search($term, $context);
-
         }
 
         $resultStruct = new PdfSearchResultStruct();

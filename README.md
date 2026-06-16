@@ -1,6 +1,18 @@
-# Mori Elastic Search Plugin for Shopware 6
+# Shopware 6 PDF Elasticsearch Plugin
+## Full-Text Search & PDF Indexing
 
 Convert PDF documents to searchable text and enable fast full-text search using Elasticsearch.
+
+## 🚀 Features
+
+- ✅ **Convert PDFs** to searchable text
+- ✅ **Elasticsearch integration** for fast search
+- ✅ **Admin panel** for configuration
+- ✅ **Reindex command** for bulk updates
+- ✅ **Edit** Review and edit title, description etc ...
+- 🧩 Search results in Storefront search suggestions
+
+
 ## How It Works
 
 ### 1. Upload PDF File
@@ -16,19 +28,12 @@ Click on the PDF file - the plugin automatically:
 
 ![](src/Resources/config/images/help-2.jpg)
 
-### 3. Search in Storefront
+### 3. Configuration Plugin
+![](src/Resources/config/images/help-4.jpg)
+### 4. Search in Storefront
 PDF search results appear in the Storefront search suggestions.
 
 ![](src/Resources/config/images/help-3.jpg)
-
-## Features
-
-- 📄 Extract text from PDF files automatically
-- 🔍 Full-text search in PDF content
-- ⚡ Elasticsearch integration for fast searches
-- 💾 Database fallback when Elasticsearch is unavailable
-- 🎯 Smart search strategies (span_near for phrases, fuzzy for typos)
-- 🧩 Search results in Storefront search suggestions
 
 ## Requirements
 

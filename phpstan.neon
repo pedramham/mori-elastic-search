@@ -1,0 +1,24 @@
+parameters:
+    level: 7
+    tmpDir: var/cache/phpstan
+    inferPrivatePropertyTypeFromConstructor: true
+    checkMissingIterableValueType: false
+    reportUnmatchedIgnoredErrors: false
+
+    paths:
+        -   src
+        -   tests
+
+    scanDirectories:
+        - ../../../vendor/opensearch-project/opensearch-php/src
+        - ../../../vendor/shopware
+    ignoreErrors:
+        -   '#is never read, only written#'
+        -   '#Deprecated in PHP 8.2: Required parameter#'
+        -   '#return type has no value type specified in iterable type array#'
+        -   '#with no value type specified in iterable type array#'
+        -   '#with no value type specified in iterable type iterable#'
+        -   '#with generic class Shopware\\Core\\Framework\\DataAbstractionLayer\\EntityRepository does not specify its types#'
+        -   '#extends generic class Shopware\\Core\\Framework\\DataAbstractionLayer\\EntityCollection but does not specify its types#'
+        -   '#Property .*::\$.* with generic class Shopware\\Core\\Framework\\DataAbstractionLayer\\EntityRepository does not specify its types#'
+        -   '#Method .*::__construct\(\) has parameter .* with generic class Shopware\\Core\\Framework\\DataAbstractionLayer\\EntityRepository but does not specify its types#'

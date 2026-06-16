@@ -5,13 +5,24 @@
     "version": "1.0.0",
     "license": "MIT",
     "require": {
-        "shopware/core": "~6.7.0"
+        "shopware/core": "~6.7.0",
+        "opensearch-project/opensearch-php": "^2.0"
     },
     "extra": {
         "shopware-plugin-class": "MoriElasticSearch\\MoriElasticSearch",
+        "plugin-icon": "src/Resources/config/images/plugin.png",
         "label": {
-            "de-DE": "Mori plugin",
-            "en-GB": "Mori plugin"
+            "de-DE": "Mori elasticserach pdf plugin",
+            "en-GB": "Mori elasticserach pdf plugin"
+        },
+        "copyright": "(c) by Mori GmbH",
+        "description": {
+            "de-DE": "Convert PDF to searchable text with Elasticsearch integration for fast full-text search in Shopware 6.",
+            "en-GB": "PDF in durchsuchbaren Text konvertieren mit Elasticsearch-Integration für eine schnelle Volltextsuche in Shopware 6."
+        },
+        "manufacturerLink": {
+            "de-DE": "pedramham1@gmail.com",
+            "en-GB": "pedramham1@gmail.com"
         }
     },
     "autoload": {
@@ -22,6 +33,16 @@
     "autoload-dev": {
         "psr-4": {
             "MoriElasticSearch\\Tests\\": "tests/"
+        }
+    },
+    "require-dev": {
+        "symplify/easy-coding-standard": "^11.0",
+        "squizlabs/php_codesniffer": "^3.7",
+        "phpstan/phpstan": "^1.10"
+    },
+    "config": {
+        "allow-plugins": {
+            "symfony/runtime": true
         }
     }
 }

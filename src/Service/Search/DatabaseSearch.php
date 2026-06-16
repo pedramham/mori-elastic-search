@@ -23,7 +23,7 @@ class DatabaseSearch
         $criteria->addFilter(
             new OrFilter([
                 new ContainsFilter('title', $keyword),
-                new ContainsFilter('description', $keyword)
+                new ContainsFilter('description', $keyword),
             ])
         );
 
