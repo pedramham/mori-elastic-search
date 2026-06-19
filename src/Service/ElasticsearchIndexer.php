@@ -23,9 +23,10 @@ class ElasticsearchIndexer
     public function __construct(
         EntityRepository $pdfRepository,
         ElasticsearchStorage $elasticsearchStorage,
-        LoggerInterface $logger
+        LoggerInterface $logger,
+        ?Client $client = null // Optional injection
     ) {
-        $this->client = ClientBuilder::create()->setHosts([SystemConfigHelper::getHost()])->build();
+        $this->client = $client ?? ClientBuilder::create()->setHosts([SystemConfigHelper::getHost()])->build();
         $this->pdfRepository = $pdfRepository;
         $this->elasticsearchStorage = $elasticsearchStorage;
         $this->logger = $logger;

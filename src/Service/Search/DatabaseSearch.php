@@ -10,11 +10,11 @@ use Shopware\Core\Framework\DataAbstractionLayer\Search\Filter\OrFilter;
 
 class DatabaseSearch
 {
-    private EntityRepository $repository;
+    private EntityRepository $pdfElasticSearchRepository;
 
-    public function __construct(EntityRepository $repository)
+    public function __construct(EntityRepository $pdfElasticSearchRepository)
     {
-        $this->repository = $repository;
+        $this->pdfElasticSearchRepository = $pdfElasticSearchRepository;
     }
 
     public function search(string $keyword, Context $context): array
@@ -27,7 +27,7 @@ class DatabaseSearch
             ])
         );
 
-        $result = $this->repository->search($criteria, $context);
+        $result = $this->pdfElasticSearchRepository->search($criteria, $context);
         return $result->getEntities()->getElements();
     }
 }

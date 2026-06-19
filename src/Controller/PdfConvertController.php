@@ -42,7 +42,7 @@ class PdfConvertController extends AbstractController
     public function delete(Request $request): JsonResponse
     {
         $data = json_decode($request->getContent(), true);
-        $mediaId = $data['mediaId'] ?? null;
+        $mediaId = $data['mediaId'] ?? '';
         return $this->convertPdfToText->pdfDelete($mediaId);
     }
 }

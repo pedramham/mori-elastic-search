@@ -15,9 +15,9 @@ class ElasticsearchStorage implements ConvertPdfInterface
 
     private LoggerInterface $logger;
 
-    public function __construct(LoggerInterface $logger)
+    public function __construct(LoggerInterface $logger, ?Client $client = null)
     {
-        $this->client = ClientBuilder::create()->setHosts([SystemConfigHelper::getHost()])->build();
+        $this->client = $client ?? ClientBuilder::create()->setHosts([SystemConfigHelper::getHost()])->build();
         $this->logger = $logger;
     }
 
