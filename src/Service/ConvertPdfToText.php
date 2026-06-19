@@ -15,16 +15,19 @@ class ConvertPdfToText
 
     private string $projectDir;
 
-    public function __construct(Storage $storage, Kernel $kernel)
+    private Parser $parser;
+
+    public function __construct(Storage $storage, Kernel $kernel, ?Parser $parser = null)
     {
         $this->storage = $storage;
         $this->projectDir = $kernel->getProjectDir();
+        $this->parser = $parser ?? new Parser();
     }
 
     public function save(array $data): JsonResponse
     {
         try {
-            $processedData = $this->processPdf($data);
+            $processedData = $this->converPdfToText($data);
             if ($this->storage->exists($processedData['mediaId']) && ! $processedData['update']) {
                 return new JsonResponse([
                     'success' => true,
@@ -46,13 +49,11 @@ class ConvertPdfToText
         }
     }
 
-    private function processPdf(array $data): array
+    private function converPdfToText(array $data): array
     {
         $pdfPath = Path::join($this->projectDir, 'public', $data['path']);
-
         if (! $data['update']) {
-            $parser = new Parser();
-            $description = trim($parser->parseFile($pdfPath)->getText());
+            $description = trim($this->parser->parseFile($pdfPath)->getText());
         } else {
             $description = trim($data['description']);
         }

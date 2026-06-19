@@ -12,9 +12,9 @@ class ElasticsearchSearch
 {
     private Client $client;
 
-    public function __construct()
+    public function __construct(?Client $client = null)
     {
-        $this->client = ClientBuilder::create()->setHosts([SystemConfigHelper::getHost()])->build();
+        $this->client = $client ?? ClientBuilder::create()->setHosts([SystemConfigHelper::getHost()])->build();
     }
 
     public function search(string $term): array

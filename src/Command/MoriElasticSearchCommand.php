@@ -46,7 +46,7 @@ class MoriElasticSearchCommand extends Command
         $criteria->setLimit(1);
 
         $ids = $this->mediaRepository->searchIds($criteria, $context)->getIds();
-       // $record = $result->first();
+        // $record = $result->first();
 
         //  dd($ids);
         if ($ids) {

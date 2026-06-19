@@ -2,22 +2,29 @@
 <phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/9.3/phpunit.xsd"
          bootstrap="tests/TestBootstrap.php"
-         executionOrder="random">
-    <coverage>
-        <include>
-            <directory>./src/</directory>
-        </include>
-    </coverage>
-    <php>
-        <ini name="error_reporting" value="-1"/>
-        <server name="KERNEL_CLASS" value="Shopware\Core\Kernel"/>
-        <env name="APP_ENV" value="test"/>
-        <env name="APP_DEBUG" value="1"/>
-        <env name="SYMFONY_DEPRECATIONS_HELPER" value="weak"/>
-    </php>
+         colors="true">
     <testsuites>
-        <testsuite name="MoriElasticSearch Testsuite">
+        <testsuite name="MoriElasticSearch">
             <directory>tests</directory>
         </testsuite>
     </testsuites>
+    <source ignoreIndirectDeprecations="true"
+            ignoreSelfDeprecations="true"
+            ignoreDirectDeprecations="true">
+        <include>
+            <directory>src</directory>
+        </include>
+    </source>
+    <php>
+        <env name="APP_ENV" value="test"/>
+        <env name="APP_DEBUG" value="1"/>
+        <server name="KERNEL_CLASS" value="Shopware\Core\Kernel"/>
+    </php>
+
+<!--    <coverage>-->
+<!--        <report>-->
+<!--            <html outputDirectory="var/log/coverage" lowUpperBound="50" highLowerBound="90"/>-->
+<!--            <text outputFile="php://stdout" showUncoveredFiles="true" showOnlySummary="false"/>-->
+<!--        </report>-->
+<!--    </coverage>-->
 </phpunit>

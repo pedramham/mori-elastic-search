@@ -7,7 +7,6 @@ parameters:
 
     paths:
         -   src
-        -   tests
 
     scanDirectories:
         - ../../../vendor/opensearch-project/opensearch-php/src

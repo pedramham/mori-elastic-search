@@ -30,7 +30,11 @@ Click on the PDF file - the plugin automatically:
 
 ### 3. Configuration Plugin
 ![](src/Resources/config/images/help-4.jpg)
-### 4. Search in Storefront
+
+### 4. Edit
+![](src/Resources/config/images/help-5.jpg)
+
+### 5. Search in Storefront
 PDF search results appear in the Storefront search suggestions.
 
 ![](src/Resources/config/images/help-3.jpg)
@@ -48,28 +52,47 @@ PDF search results appear in the Storefront search suggestions.
 
 ### 1. Installation
 
-```bash
-# Navigate to custom plugins directory
-cd custom/plugins/
 
-# Clone the repository
-git clone https://github.com/yourusername/mori-elastic-search.git
+### Navigate to custom plugins directory
+> cd custom/plugins/
+> git clone https://github.com/pedramham1/mori-elastic-search.git
 
-# Go back to project root
-cd ../../
+> php bin/console plugin:refresh
 
-php bin/console plugin:refresh
-php bin/console plugin:install --activate MoriElasticSearch
+> php bin/console plugin:install --activate MoriElasticSearch
 
-# Build the administration
-./bin/build-administration.sh
+> ./bin/build-administration.sh
 
-# Clear cache
-php bin/console cache:clear
-
-## ⚠️ Important Notes to Add
-
+> php bin/console cache:clear
 
 > **Note:** 
 > - The `./bin/build-administration.sh` command is required for custom plugins
 > - Run commands from your Shopware project root directory
+
+## Developer tools
+##Tools
+####Fixing Issues with ECS
+To start using [ECS](https://github.com/easy-coding-standard/easy-coding-standard), just run it, If you're sure, go for a fix command:
+<pre>
+vendor/bin/ecs check src --fix
+</pre>
+####Running Unit Tests with PHPUnit
+<pre>
+./vendor/bin/phpunit --configuration="custom/plugins/WarrantyManager"
+</pre>
+####Analyzing PHP Code with PHPStan
+<pre>
+vendor/bin/phpstan analyse src
+</pre>
+
+#### Test
+<pre>
+cd /var/www/html/shopwareProject
+</pre>
+<pre>
+XDEBUG_MODE=coverage vendor/bin/phpunit -c custom/plugins/MoriElasticSearch/phpunit.xml custom/plugins/MoriElasticSearch/tests/ --coverage-html var/log/coverage
+</pre>
+or
+<pre>
+vendor/bin/phpunit -c custom/plugins/MoriElasticSearch/phpunit.xml custom/plugins/MoriElasticSearch/tests/
+</pre>
