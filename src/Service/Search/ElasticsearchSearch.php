@@ -56,6 +56,18 @@ class ElasticsearchSearch
                         'in_order' => true,
                     ],
                 ],
+                'highlight' => [
+                    'fields' => [
+                        'description' => [
+                            'fragment_size' => 200,
+                            'number_of_fragments' => 1,
+                            'no_match_size' => 200,
+                            'pre_tags' => [' <span class="highlight-description">'],
+                            'post_tags' => ['</span> '],
+                        ],
+                    ],
+                ],
+                '_source' => ['title', 'converted_at', 'url'],
                 'collapse' => [
                     'field' => 'mediaId',
                 ],
@@ -79,6 +91,18 @@ class ElasticsearchSearch
                         'fuzziness' => SystemConfigHelper::getFuzziness(),
                     ],
                 ],
+                'highlight' => [
+                    'fields' => [
+                        'description' => [
+                            'fragment_size' => 200,
+                            'number_of_fragments' => 1,
+                            'no_match_size' => 200,
+                            'pre_tags' => [' <span class="highlight-description">'],
+                            'post_tags' => ['</span> '],
+                        ],
+                    ],
+                ],
+                '_source' => ['title', 'converted_at', 'url'],
                 'size' => 10,
             ],
         ];

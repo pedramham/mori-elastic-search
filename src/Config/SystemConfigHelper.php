@@ -23,10 +23,14 @@ class SystemConfigHelper
 
     public static function getIndexName(): string
     {
-        return self::getStringConfig(
+        $baseName = self::getStringConfig(
             'MoriElasticSearch.config.elasticSearchIndexName',
             'sw_pdf_documents_v1'
         );
+
+        $dateSuffix = date('Y-m-d');
+
+        return $baseName . '_' . $dateSuffix;
     }
 
     public static function getNumberOfShards(): int

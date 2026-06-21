@@ -8,19 +8,24 @@
 
         {% if pdfHits|length > 0 %}
             {% for pdf in pdfHits %}
+
                 {% set source = pdf._source ?? pdf %}
                 {% set title = source.title|default('PDF Document') %}
                 {% set path = source.url|default('#') %}
+                {% set description = source.description  ?? pdf.highlight.description[0]%}
 
-                <li class="search-suggest-product js-result" role="option">
+                <li class="search-suggest-product js-result mori-elasticSearch" role="option">
                     <a href="{{ path }}" title="{{ title }}" class="search-suggest-product-link">
-                        <div class="row align-items-center g-0">
-                            <div class="col search-suggest-product-name">
+                        <div class="row align-items-center g-2">
+                            <div class="col title">
                                 {% sw_icon 'pdf' style {
                                     'namespace': 'MoriElasticSearch',
                                     'size': 's'
                                 } %}
                                 {{ title }}
+                            </div>
+                            <div class="description">
+                                {{ description|raw }}
                             </div>
                         </div>
                     </a>

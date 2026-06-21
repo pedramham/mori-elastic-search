@@ -110,6 +110,7 @@ class ElasticsearchStorage implements ConvertPdfInterface
                     'number_of_replicas' => SystemConfigHelper::getNumberOfReplicas(),
                 ],
                 'mappings' => [
+                    'dynamic' => false,
                     'properties' => [
                         'title' => [
                             'type' => 'text',
@@ -126,6 +127,21 @@ class ElasticsearchStorage implements ConvertPdfInterface
                                     'type' => 'keyword',
                                 ],
                             ],
+                        ],
+                        'converted_at' => [
+                            'type' => 'date',
+                        ],
+                        'mediaId' => [
+                            'type' => 'keyword',
+                            'index' => false,
+                        ],
+                        'pdfPath' => [
+                            'type' => 'keyword',
+                            'index' => false,
+                        ],
+                        'url' => [
+                            'type' => 'keyword',
+                            'index' => false,
                         ],
                     ],
                 ],
